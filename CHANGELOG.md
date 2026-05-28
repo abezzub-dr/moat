@@ -6,6 +6,10 @@ Moat is pre-1.0. The CLI interface and `moat.yaml` schema may change between min
 
 ## Unreleased
 
+### Fixed
+
+- Fix executable bit being stripped from plugin hook scripts during host-side marketplace cloning — previously, `CollectMarketplaceTar` wrote every file's tar header with a hardcoded `0644`, so files like `bin/aw-hook` and `scripts/on-prompt-submit.sh` extracted at `0644` inside the container and Claude Code reported `Permission denied` on `UserPromptSubmit` hooks. The source file mode is now preserved through the tar. Regression from [#240](https://github.com/majorcontext/moat/pull/240). ([#363](https://github.com/majorcontext/moat/pull/363))
+
 ## v0.5.3 — 2026-05-25
 
 Patch release centered on Claude Code authentication inside containers — subscription detection, `setup-token` capture, and version pinning — plus a non-root tmpfs permissions fix.
